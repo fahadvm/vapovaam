@@ -32,9 +32,13 @@ export const MobileLayout: React.FC<MobileLayoutProps> = ({ children, className 
   ];
   
   return (
-    <div className="min-h-screen bg-black text-white flex overflow-hidden">
-      {/* Desktop Sidebar - Only visible on large screens */}
-      <div className="hidden lg:flex flex-col w-80 xl:w-96 bg-zinc-950 border-r border-white/5 h-screen sticky top-0 shrink-0">
+    /* Fix 1: overflow-x-hidden on the root prevents the "right-side overlap" 
+      Fix 2: Using w-full and max-w-[100vw] ensures it never exceeds screen width
+    */
+    <div className="min-h-screen bg-black text-white flex overflow-x-hidden w-full max-w-[100vw]">
+      
+      {/* Desktop Left Sidebar - Only visible on LG screens and up */}
+      <aside className="hidden lg:flex flex-col w-80 xl:w-96 bg-zinc-950 border-r border-white/5 h-screen sticky top-0 shrink-0">
         <div className="p-6 border-b border-white/5">
           <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent" style={{ fontFamily: 'cursive' }}>
             Vapovaa
@@ -97,27 +101,23 @@ export const MobileLayout: React.FC<MobileLayoutProps> = ({ children, className 
             </div>
           </div>
         </div>
-        
-        {/* <div className="p-4 border-t border-white/5">
-          <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-4 rounded-xl text-center">
-            <div className="text-white font-bold mb-1">Need Help Booking?</div>
-            <div className="text-xs text-white/80 mb-3">Chat with us on WhatsApp</div>
-            <button className="w-full bg-white text-black font-bold py-2 rounded-lg text-sm hover:bg-zinc-200 transition-colors">
-              Contact Support
-            </button>
-          </div>
-        </div> */}
-      </div>
+      </aside>
       
-      {/* Main Content - Mobile Optimized, Centered on Desktop */}
-      <div className="flex-1 flex justify-center">
-        <div className={clsx("w-full max-w-md lg:max-w-lg xl:max-w-xl bg-zinc-900 h-screen relative flex flex-col shadow-2xl overflow-hidden lg:border-x lg:border-white/5", className)}>
+      {/* Main Content Wrapper
+         Fix 3: "min-w-0" is critical inside flex containers to prevent child-driven width expansion.
+      */}
+      <main className="flex-1 flex justify-center min-w-0 bg-black">
+        <div className={clsx(
+          "w-full max-w-md lg:max-w-lg xl:max-w-xl bg-zinc-900 min-h-screen relative flex flex-col shadow-2xl lg:border-x lg:border-white/5",
+          "overflow-x-hidden", // Fix 4: Prevents internal elements from pushing the width out
+          className
+        )}>
           {children}
         </div>
-      </div>
+      </main>
 
       {/* Desktop Right Sidebar - Only visible on XL screens */}
-      <div className="hidden  flex-col w-80 bg-zinc-950 border-l border-white/5 h-screen sticky top-0 shrink-0">
+      <aside className="hidden xl:flex flex-col w-80 bg-zinc-950 border-l border-white/5 h-screen sticky top-0 shrink-0">
         <div className="p-6">
           <h3 className="text-xs font-bold text-zinc-500 uppercase tracking-wider mb-4">For You</h3>
           
@@ -152,7 +152,7 @@ export const MobileLayout: React.FC<MobileLayoutProps> = ({ children, className 
             © 2025 Vapovaa • Travel with Style
           </div>
         </div>
-      </div>
+      </aside>
     </div>
   );
 };
