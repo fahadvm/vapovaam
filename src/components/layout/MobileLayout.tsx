@@ -98,7 +98,7 @@ export const MobileLayout: React.FC<MobileLayoutProps> = ({ children, className 
           </div>
         </div>
         
-        <div className="p-4 border-t border-white/5">
+        {/* <div className="p-4 border-t border-white/5">
           <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-4 rounded-xl text-center">
             <div className="text-white font-bold mb-1">Need Help Booking?</div>
             <div className="text-xs text-white/80 mb-3">Chat with us on WhatsApp</div>
@@ -106,7 +106,7 @@ export const MobileLayout: React.FC<MobileLayoutProps> = ({ children, className 
               Contact Support
             </button>
           </div>
-        </div>
+        </div> */}
       </div>
       
       {/* Main Content - Mobile Optimized, Centered on Desktop */}
@@ -117,7 +117,7 @@ export const MobileLayout: React.FC<MobileLayoutProps> = ({ children, className 
       </div>
 
       {/* Desktop Right Sidebar - Only visible on XL screens */}
-      <div className="hidden xl:flex flex-col w-80 bg-zinc-950 border-l border-white/5 h-screen sticky top-0 shrink-0">
+      <div className="hidden xxl:flex flex-col w-80 bg-zinc-950 border-l border-white/5 h-screen sticky top-0 shrink-0">
         <div className="p-6">
           <h3 className="text-xs font-bold text-zinc-500 uppercase tracking-wider mb-4">For You</h3>
           
