@@ -5,7 +5,7 @@ export const StoryRail: React.FC = () => {
   const storyPackages = packages.filter(p => p.isStory);
 
   return (
-    <div className="w-full overflow-x-auto no-scrollbar py-4 pl-4">
+    <div className="w-[100vw] overflow-x-auto no-scrollbar py-4 pl-4">
       <div className="flex gap-4">
         {/* My Story / Add Story Placeholder */}
         <div className="flex flex-col items-center gap-2 min-w-[72px]">

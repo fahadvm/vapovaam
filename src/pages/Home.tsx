@@ -26,7 +26,7 @@ export const Home: React.FC = () => {
       </div>
 
       {/* Scrollable Content */}
-      <div className="flex-1 overflow-y-auto pb-24 no-scrollbar">
+      <div className="w-full flex-1 overflow-y-auto pb-24 no-scrollbar">
         <StoryRail />
         
         <div className="w-full h-[1px] bg-zinc-800 my-2" />
