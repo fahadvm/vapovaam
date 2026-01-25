@@ -1,12 +1,50 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { MobileLayout } from '../components/layout/MobileLayout';
 import { BottomNav } from '../components/layout/BottomNav';
 import { StoryRail } from '../components/feed/StoryRail';
 import { FeedCard } from '../components/feed/FeedCard';
-import { packages } from '../data/packages';
-import { Bell, Search } from 'lucide-react';
+import { Bell, Search, Loader2 } from 'lucide-react';
+import { tripApi } from '../api/tripApi';
+import type { Trip } from '../api/tripApi';
 
 export const Home: React.FC = () => {
+  const [trips, setTrips] = useState<Trip[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchTrips = async () => {
+      try {
+        setLoading(true);
+        const data = await tripApi.getAll();
+        setTrips(data);
+      } catch (err) {
+        console.error('Failed to fetch trips:', err);
+        setError('Failed to load trips. Please try again later.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTrips();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-screen bg-zinc-900 text-white">
+        <Loader2 className="w-8 h-8 animate-spin text-blue-500" />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center h-screen bg-zinc-900 text-white">
+        <p className="text-red-400">{error}</p>
+      </div>
+    );
+  }
+
   return (
     <MobileLayout>
       {/* Top Bar */}
@@ -27,12 +65,13 @@ export const Home: React.FC = () => {
 
       {/* Scrollable Content */}
       <div className="w-full flex-1 overflow-y-auto pb-24 lg:pb-8 no-scrollbar">
-        <StoryRail />
+        <StoryRail trips={trips} />
 
         <div className="w-full h-[1px] bg-zinc-800 my-2" />
 
         <div className="flex flex-col lg:grid lg:grid-cols-2 xl:grid-cols-3 lg:gap-4 lg:p-4">
-          {packages.map((pkg) => (
+          {trips.map((pkg) => (
+            //@ts-ignore
             <FeedCard key={pkg.id} pkg={pkg} />
           ))}
         </div>

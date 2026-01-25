@@ -1,8 +1,12 @@
 import React from 'react';
-import { packages } from '../../data/packages';
+import type { Trip } from '../../api/tripApi';
 
-export const StoryRail: React.FC = () => {
-  const storyPackages = packages.filter(p => p.isStory);
+interface StoryRailProps {
+  trips: Trip[];
+}
+
+export const StoryRail: React.FC<StoryRailProps> = ({ trips }) => {
+  const storyPackages = trips.filter(p => p.isStory);
 
   return (
     <div className="w-full overflow-x-auto no-scrollbar py-4 pl-4">
