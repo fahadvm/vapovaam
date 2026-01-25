@@ -1,11 +1,25 @@
 import { Request, Response } from 'express';
+import { UserService } from '../services/user.service.js';
 
-export const getUsers = (req: Request, res: Response) => {
-    res.status(200).json({
-        success: true,
-        data: [
-            { id: 1, name: 'John Doe' },
-            { id: 2, name: 'Jane Doe' }
-        ]
-    });
-};
+export class UserController {
+    private userService: UserService;
+
+    constructor() {
+        this.userService = new UserService();
+    }
+
+    getUsers = async (req: Request, res: Response) => {
+        try {
+            const users = await this.userService.getAllUsers();
+            res.status(200).json({
+                success: true,
+                data: users
+            });
+        } catch (error) {
+            res.status(500).json({
+                success: false,
+                message: 'Error fetching users'
+            });
+        }
+    };
+}
