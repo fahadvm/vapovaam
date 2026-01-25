@@ -12,6 +12,7 @@ app.use(cors());
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use('/uploads', express.static('uploads'));
 
 // Health Check
 app.get('/health', (req: Request, res: Response) => {

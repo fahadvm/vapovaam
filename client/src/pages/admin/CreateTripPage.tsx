@@ -5,6 +5,7 @@ import { tripApi, type CreateTripData, type Trip } from '../../api/tripApi';
 import { categoryApi, type Category } from '../../api/categoryApi';
 import { clsx } from 'clsx';
 import { ItineraryDay, StayInfo } from '../../api/tripApi';
+import { ImageUpload } from '../../components/common/ImageUpload';
 
 const steps = [
     { title: 'Overview', icon: Calendar },
@@ -209,13 +210,10 @@ export const CreateTripPage: React.FC = () => {
                                 />
                             </div>
                             <div className="col-span-2">
-                                <label className="block text-sm font-medium text-zinc-400 mb-2">Cover Image URL</label>
-                                <input
-                                    type="text"
+                                <ImageUpload
+                                    label="Cover Image"
                                     value={formData.image}
-                                    onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-                                    className="w-full bg-zinc-800 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                    placeholder="https://..."
+                                    onChange={(url) => setFormData({ ...formData, image: url })}
                                 />
                             </div>
                             <div className="col-span-2">
@@ -357,13 +355,10 @@ export const CreateTripPage: React.FC = () => {
                                         />
                                     </div>
                                     <div className="col-span-2">
-                                        <label className="block text-sm font-medium text-zinc-400 mb-2">Hotel Image URL</label>
-                                        <input
-                                            type="text"
-                                            value={formData.stay?.image}
-                                            onChange={(e) => handleStayChange('image', e.target.value)}
-                                            className="w-full bg-zinc-800 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                            placeholder="https://..."
+                                        <ImageUpload
+                                            label="Hotel Image"
+                                            value={formData.stay?.image || ''}
+                                            onChange={(url) => handleStayChange('image', url)}
                                         />
                                     </div>
                                 </div>
