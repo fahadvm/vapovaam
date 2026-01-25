@@ -4,7 +4,7 @@ import { ArrowLeft, Save, Loader2, Plus, Trash2, Calendar, Hotel, Utensils } fro
 import { tripApi, type CreateTripData, type Trip } from '../../api/tripApi';
 import { categoryApi, type Category } from '../../api/categoryApi';
 import { clsx } from 'clsx';
-import { ItineraryDay, StayInfo } from '../../api/tripApi';
+import type{ ItineraryDay, StayInfo } from '../../api/tripApi';
 import { ImageUpload } from '../../components/common/ImageUpload';
 
 const steps = [

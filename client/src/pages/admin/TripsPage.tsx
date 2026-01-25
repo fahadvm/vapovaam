@@ -1,10 +1,59 @@
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Pencil, Plus, Trash2, Loader2 } from "lucide-react";
+import { tripApi, type Trip } from '../../api/tripApi';
+import { categoryApi, type Category } from '../../api/categoryApi';
 
 export const TripsPage: React.FC = () => {
     const navigate = useNavigate();
     const [trips, setTrips] = useState<Trip[]>([]);
+    const [categories, setCategories] = useState<Category[]>([]);
+    const [loading, setLoading] = useState(true);
 
-    // ... existing state and logic ...
+    const fetchData = async () => {
+        try {
+            setLoading(true);
+            const [tripsData, categoriesData] = await Promise.all([
+                tripApi.getAll(),
+                categoryApi.getAll(),
+            ]);
+            setTrips(tripsData);
+            setCategories(categoriesData);
+        } catch (error) {
+            console.error('Failed to fetch data', error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    const handleDelete = async (id: string) => {
+        if (!confirm('Are you sure you want to delete this trip?')) return;
+
+        try {
+            await tripApi.delete(id);
+            await fetchData();
+        } catch (error) {
+            console.error('Failed to delete trip', error);
+        }
+    };
+
+    const handleEdit = (trip: Trip) => {
+        // TODO: Implement Edit Trip functionality
+        console.log('Edit trip', trip);
+        alert("Edit functionality to be implemented. Please use Create Trip for now.");
+    };
+
+    if (loading) {
+        return (
+            <div className="flex-1 flex items-center justify-center">
+                <Loader2 className="w-8 h-8 animate-spin text-blue-500" />
+            </div>
+        );
+    }
 
     return (
         <div className="p-8">
@@ -52,7 +101,7 @@ export const TripsPage: React.FC = () => {
                                 <td className="px-6 py-4">
                                     <div className="flex justify-end gap-2">
                                         <button
-                                            onClick={() => openModal(trip)}
+                                            onClick={() => handleEdit(trip)}
                                             className="w-9 h-9 rounded-lg bg-zinc-700 hover:bg-zinc-600 flex items-center justify-center text-zinc-300 hover:text-white transition-colors"
                                         >
                                             <Pencil size={16} />
@@ -76,8 +125,6 @@ export const TripsPage: React.FC = () => {
                     </div>
                 )}
             </div>
-
-
         </div>
     );
 };
