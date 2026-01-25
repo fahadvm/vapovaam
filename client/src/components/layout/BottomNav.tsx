@@ -10,7 +10,7 @@ interface BottomNavProps {
 export const BottomNav: React.FC<BottomNavProps> = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  
+
   const getActiveTab = () => {
     const path = location.pathname;
     if (path === '/') return 'home';
@@ -30,8 +30,8 @@ export const BottomNav: React.FC<BottomNavProps> = () => {
   ];
 
   return (
-    <div className="absolute bottom-0 left-0 right-0 bg-black/80 backdrop-blur-md border-t border-white/10 px-6 py-4 pb-6 z-50">
-      <div className="flex justify-between items-center">
+    <div className="absolute lg:fixed bottom-0 lg:bottom-6 left-0 right-0 lg:left-1/2 lg:right-auto lg:-translate-x-1/2 lg:w-auto lg:rounded-full lg:border lg:border-white/10 lg:px-8 bg-black/80 backdrop-blur-md border-t lg:border-t-white/10 border-white/10 px-6 py-4 pb-6 lg:pb-4 z-50 transition-all duration-300">
+      <div className="flex justify-between items-center lg:gap-12">
         {navItems.map((item) => {
           const Icon = item.icon;
           const isActive = activeTab === item.id;
@@ -40,7 +40,7 @@ export const BottomNav: React.FC<BottomNavProps> = () => {
               key={item.id}
               onClick={() => navigate(item.path)}
               className={clsx(
-                "flex flex-col items-center gap-1 transition-colors duration-200",
+                "flex flex-col items-center gap-1 transition-colors duration-200 hover:scale-110 active:scale-95",
                 isActive ? "text-white" : "text-zinc-500 hover:text-zinc-300"
               )}
             >

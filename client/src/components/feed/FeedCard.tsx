@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Heart, Share2, Bookmark, Clock, Star } from 'lucide-react';
-import type  { Package } from '../../types/package';
+import type { Package } from '../../types/package';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { clsx } from 'clsx';
@@ -22,12 +22,12 @@ export const FeedCard: React.FC<FeedCardProps> = ({ pkg }) => {
   };
 
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.5 }}
-      className="w-full mb-8 relative group"
+      className="w-full mb-8 lg:mb-0 relative group"
     >
       {/* Header */}
       <div className="flex items-center justify-between px-4 py-3">
@@ -41,25 +41,25 @@ export const FeedCard: React.FC<FeedCardProps> = ({ pkg }) => {
           </div>
         </div>
         <button className="text-zinc-400 hover:text-white">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="1" /><circle cx="19" cy="12" r="1" /><circle cx="5" cy="12" r="1" /></svg>
         </button>
       </div>
 
       {/* Main Visual Carousel */}
       <div className="relative w-full aspect-[4/5] bg-zinc-800 overflow-hidden">
-        <div 
+        <div
           className="w-full h-full flex overflow-x-auto snap-x snap-mandatory no-scrollbar"
           onScroll={handleScroll}
         >
           {images.map((img, idx) => (
-            <div 
-              key={idx} 
+            <div
+              key={idx}
               className="w-full h-full flex-shrink-0 snap-center relative cursor-pointer"
               onClick={() => navigate(`/package/${pkg.id}`)}
             >
-              <img 
-                src={img} 
-                alt={`${pkg.title} ${idx + 1}`} 
+              <img
+                src={img}
+                alt={`${pkg.title} ${idx + 1}`}
                 className="w-full h-full object-cover"
                 loading="lazy"
               />
@@ -73,7 +73,7 @@ export const FeedCard: React.FC<FeedCardProps> = ({ pkg }) => {
         {images.length > 1 && (
           <div className="absolute top-4 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
             {images.map((_, idx) => (
-              <div 
+              <div
                 key={idx}
                 className={clsx(
                   "w-1.5 h-1.5 rounded-full transition-colors shadow-sm",
@@ -92,28 +92,28 @@ export const FeedCard: React.FC<FeedCardProps> = ({ pkg }) => {
 
         {/* Bottom Info Overlay */}
         <div className="absolute bottom-0 left-0 right-0 p-4 pt-12 bg-gradient-to-t from-black/90 to-transparent pointer-events-none">
-           <h2 className="text-2xl font-bold text-white mb-1">{pkg.title}</h2>
-           <div className="flex items-center gap-4 text-sm text-zinc-200 mb-3">
-             <div className="flex items-center gap-1">
-               <Clock size={14} />
-               <span>{pkg.duration}</span>
-             </div>
-             <div className="flex items-center gap-1">
-               <Star size={14} className="fill-yellow-400 text-yellow-400" />
-               <span>{pkg.rating}</span>
-             </div>
-           </div>
-           
-           {/* Mini CTA */}
-           <button 
-             onClick={(e) => {
-               e.stopPropagation();
-               navigate(`/package/${pkg.id}`);
-             }}
-             className="w-full bg-white text-black font-bold py-3 rounded-xl hover:bg-zinc-200 transition-colors active:scale-[0.98] pointer-events-auto"
-           >
-             View Trip Details
-           </button>
+          <h2 className="text-2xl font-bold text-white mb-1">{pkg.title}</h2>
+          <div className="flex items-center gap-4 text-sm text-zinc-200 mb-3">
+            <div className="flex items-center gap-1">
+              <Clock size={14} />
+              <span>{pkg.duration}</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <Star size={14} className="fill-yellow-400 text-yellow-400" />
+              <span>{pkg.rating}</span>
+            </div>
+          </div>
+
+          {/* Mini CTA */}
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              navigate(`/package/${pkg.id}`);
+            }}
+            className="w-full bg-white text-black font-bold py-3 rounded-xl hover:bg-zinc-200 transition-colors active:scale-[0.98] pointer-events-auto"
+          >
+            View Trip Details
+          </button>
         </div>
       </div>
 
@@ -125,7 +125,7 @@ export const FeedCard: React.FC<FeedCardProps> = ({ pkg }) => {
           </button>
           <button className="group flex items-center gap-1.5">
             <div className="rotate-[-25deg] -mt-1">
-                <Share2 size={24} className="text-white group-hover:text-blue-400 transition-colors" />
+              <Share2 size={24} className="text-white group-hover:text-blue-400 transition-colors" />
             </div>
           </button>
         </div>

@@ -10,7 +10,7 @@ export const Home: React.FC = () => {
   return (
     <MobileLayout>
       {/* Top Bar */}
-      <div className="flex items-center justify-between px-4 py-3 z-10 bg-zinc-900/90 backdrop-blur-sm sticky top-0">
+      <div className="flex items-center justify-between px-4 py-3 z-10 bg-zinc-900/90 backdrop-blur-sm sticky top-0 lg:hidden">
         <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent" style={{ fontFamily: 'cursive' }}>
           Vapovaa
         </h1>
@@ -26,12 +26,12 @@ export const Home: React.FC = () => {
       </div>
 
       {/* Scrollable Content */}
-      <div className="w-full flex-1 overflow-y-auto pb-24 no-scrollbar">
+      <div className="w-full flex-1 overflow-y-auto pb-24 lg:pb-8 no-scrollbar">
         <StoryRail />
-        
+
         <div className="w-full h-[1px] bg-zinc-800 my-2" />
-        
-        <div className="flex flex-col">
+
+        <div className="flex flex-col lg:grid lg:grid-cols-2 xl:grid-cols-3 lg:gap-4 lg:p-4">
           {packages.map((pkg) => (
             <FeedCard key={pkg.id} pkg={pkg} />
           ))}

@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, Pencil, Trash2, Loader2, X, Save, ChevronDown } from 'lucide-react';
-import { tripApi, Trip, CreateTripData } from '../../api/tripApi';
-import { categoryApi, Category } from '../../api/categoryApi';
-import { clsx } from 'clsx';
+import { tripApi, type Trip, type CreateTripData } from '../../api/tripApi';
+import { categoryApi, type Category } from '../../api/categoryApi';
 
 const initialFormData: CreateTripData = {
     title: '',

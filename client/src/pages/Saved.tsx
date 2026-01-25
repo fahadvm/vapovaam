@@ -12,17 +12,17 @@ export const Saved: React.FC = () => {
 
   return (
     <MobileLayout>
-      <div className="p-4 sticky top-0 bg-zinc-900/95 backdrop-blur-md z-20 border-b border-white/5 flex items-center gap-3">
+      <div className="p-4 sticky top-0 bg-zinc-900/95 backdrop-blur-md z-20 border-b border-white/5 flex items-center gap-3 lg:hidden">
         <button onClick={() => navigate(-1)} className="text-white">
           <ArrowLeft size={24} />
         </button>
         <h1 className="text-xl font-bold text-white">Saved Trips</h1>
       </div>
 
-      <div className="flex-1 overflow-y-auto pb-24 no-scrollbar p-4">
-        <div className="grid grid-cols-1 gap-4">
+      <div className="flex-1 overflow-y-auto pb-24 lg:pb-8 no-scrollbar p-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {savedPackages.map((pkg) => (
-            <div 
+            <div
               key={pkg.id}
               onClick={() => navigate(`/package/${pkg.id}`)}
               className="flex gap-4 bg-zinc-800 rounded-xl overflow-hidden p-2 cursor-pointer hover:bg-zinc-700/50 transition-colors"

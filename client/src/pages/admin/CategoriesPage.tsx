@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, Pencil, Trash2, Loader2, X, Save } from 'lucide-react';
-import { categoryApi, Category, CreateCategoryData } from '../../api/categoryApi';
+import { categoryApi, type Category, type CreateCategoryData } from '../../api/categoryApi';
 import { clsx } from 'clsx';
 
 const ICON_OPTIONS = ['Mountain', 'Coffee', 'Users', 'Heart', 'Landmark', 'Utensils'];

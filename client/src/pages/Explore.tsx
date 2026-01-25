@@ -5,8 +5,11 @@ import { Search, SlidersHorizontal, Mountain, Coffee, Users, Heart, Landmark, Ut
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { clsx } from 'clsx';
-import { tripApi, Trip } from '../api/tripApi';
-import { categoryApi, Category } from '../api/categoryApi';
+import { tripApi } from '../api/tripApi';
+import type { Trip } from '../api/tripApi';
+import type { Category } from '../api/categoryApi';
+
+import { categoryApi } from '../api/categoryApi';
 
 // Icon mapping for dynamic categories
 const ICON_MAP: Record<string, React.ComponentType<{ size?: number }>> = {
@@ -147,12 +150,12 @@ export const Explore: React.FC = () => {
         </AnimatePresence>
       </div>
 
-      <div className="flex-1 overflow-y-auto pb-24 no-scrollbar p-4">
+      <div className="flex-1 overflow-y-auto pb-24 lg:pb-8 no-scrollbar p-4">
         {/* Moods Grid - Dynamic Categories */}
         {!searchQuery && !selectedMood && (
           <div className="mb-8">
             <h2 className="text-lg font-bold text-white mb-4">Discover by Mood</h2>
-            <div className="grid grid-cols-3 gap-3">
+            <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
               {categories.map((category) => {
                 const IconComponent = ICON_MAP[category.icon] || Mountain;
                 return (
@@ -188,7 +191,7 @@ export const Explore: React.FC = () => {
         )}
 
         {/* Results Grid */}
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
           {filteredPackages.map((pkg) => (
             <div
               key={pkg.id}

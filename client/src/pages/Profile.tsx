@@ -6,7 +6,7 @@ import { Settings, CreditCard, HelpCircle, LogOut, ChevronRight, MapPin } from '
 export const Profile: React.FC = () => {
   return (
     <MobileLayout>
-      <div className="flex-1 overflow-y-auto pb-24 no-scrollbar">
+      <div className="flex-1 overflow-y-auto pb-24 lg:pb-8 no-scrollbar w-full lg:max-w-2xl lg:mx-auto">
         {/* Header */}
         <div className="bg-zinc-800 p-6 pb-10 rounded-b-[2rem] relative">
           <div className="flex justify-between items-center mb-6">
@@ -15,7 +15,7 @@ export const Profile: React.FC = () => {
               <Settings size={24} />
             </button>
           </div>
-          
+
           <div className="flex items-center gap-4">
             <div className="w-20 h-20 rounded-full bg-gradient-to-tr from-blue-400 to-purple-500 p-[2px]">
               <div className="w-full h-full rounded-full bg-zinc-900 overflow-hidden">
@@ -50,7 +50,7 @@ export const Profile: React.FC = () => {
 
         <div className="mt-12 px-4 space-y-2">
           <h3 className="text-sm font-bold text-zinc-500 uppercase tracking-wider mb-2 px-2">Account</h3>
-          
+
           <button className="w-full bg-zinc-800 p-4 rounded-xl flex items-center justify-between group hover:bg-zinc-700 transition-colors">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-500">
