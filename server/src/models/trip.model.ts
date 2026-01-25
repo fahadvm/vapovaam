@@ -34,7 +34,7 @@ const TripSchema: Schema = new Schema({
     tags: { type: [String], default: [] },
     categoryId: { type: String, required: true },
     highlights: { type: [String], default: [] },
-    bestTime: { type: String, required: true },
+    bestTime: { type: String, required: false },
     inclusions: { type: String, required: true },
     itinerary: { type: [ItinerarySchema], default: [] },
     stay: { type: StaySchema, required: true },

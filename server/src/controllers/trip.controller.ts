@@ -29,7 +29,7 @@ export class TripController {
 
     getTripById = async (req: Request, res: Response) => {
         try {
-            const { id } = req.params;
+            const { id } = req.params as { id: string };
             const trip = await this.tripService.getTripById(id);
 
             if (!trip) {
@@ -59,6 +59,7 @@ export class TripController {
                 data: trip,
             });
         } catch (error) {
+            console.error('Create Trip Error:', error);
             res.status(500).json({
                 success: false,
                 message: 'Error creating trip',
@@ -68,7 +69,7 @@ export class TripController {
 
     updateTrip = async (req: Request, res: Response) => {
         try {
-            const { id } = req.params;
+            const { id } = req.params as { id: string };
             const trip = await this.tripService.updateTrip(id, req.body);
 
             if (!trip) {
@@ -92,7 +93,7 @@ export class TripController {
 
     deleteTrip = async (req: Request, res: Response) => {
         try {
-            const { id } = req.params;
+            const { id } = req.params as { id: string };
             const deleted = await this.tripService.deleteTrip(id);
 
             if (!deleted) {

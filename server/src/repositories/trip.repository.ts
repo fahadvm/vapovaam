@@ -19,7 +19,8 @@ export class TripRepository implements ITripRepository {
     async create(data: ICreateTrip): Promise<ITrip> {
         const newTrip = new TripModel({
             id: Date.now().toString(),
-            ...data
+            ...data,
+            images: (data.images && data.images.length > 0) ? data.images : [data.image]
         });
         await newTrip.save();
         return newTrip.toObject();
