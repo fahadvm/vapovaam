@@ -1,36 +1,86 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { MobileLayout } from '../components/layout/MobileLayout';
 import { BottomNav } from '../components/layout/BottomNav';
-import { Search, SlidersHorizontal, Mountain, Coffee, Users, Heart, Landmark, Utensils, X } from 'lucide-react';
-import { packages } from '../data/packages';
+import { Search, SlidersHorizontal, Mountain, Coffee, Users, Heart, Landmark, Utensils, X, Loader2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { clsx } from 'clsx';
+import { tripApi, Trip } from '../api/tripApi';
+import { categoryApi, Category } from '../api/categoryApi';
 
-const MOODS = [
-  { id: 'adventure', label: 'Adventure', icon: Mountain, color: 'bg-orange-500' },
-  { id: 'relax', label: 'Relax', icon: Coffee, color: 'bg-blue-500' },
-  { id: 'family', label: 'Family', icon: Users, color: 'bg-green-500' },
-  { id: 'honeymoon', label: 'Honeymoon', icon: Heart, color: 'bg-pink-500' },
-  { id: 'culture', label: 'Culture', icon: Landmark, color: 'bg-purple-500' },
-  { id: 'food', label: 'Food', icon: Utensils, color: 'bg-yellow-500' },
-];
+// Icon mapping for dynamic categories
+const ICON_MAP: Record<string, React.ComponentType<{ size?: number }>> = {
+  Mountain,
+  Coffee,
+  Users,
+  Heart,
+  Landmark,
+  Utensils,
+};
 
 export const Explore: React.FC = () => {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedMood, setSelectedMood] = useState<string | null>(null);
   const [showFilters, setShowFilters] = useState(false);
-  const [budget, setBudget] = useState(2000);
+  const [budget, setBudget] = useState(5000);
 
-  const filteredPackages = packages.filter(pkg => {
-    const matchesSearch = pkg.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                          pkg.destination.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesMood = selectedMood ? pkg.tags.some(tag => tag.toLowerCase() === selectedMood.toLowerCase()) || true : true; // Mock mood matching for now
+  const [trips, setTrips] = useState<Trip[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const [tripsData, categoriesData] = await Promise.all([
+          tripApi.getAll(),
+          categoryApi.getAll(),
+        ]);
+        setTrips(tripsData);
+        setCategories(categoriesData);
+      } catch (err) {
+        setError('Failed to load data. Please try again.');
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const filteredPackages = trips.filter(pkg => {
+    const matchesSearch = pkg.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      pkg.destination.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesMood = selectedMood ? pkg.categoryId === selectedMood : true;
     const matchesBudget = pkg.price <= budget;
-    
+
     return matchesSearch && matchesMood && matchesBudget;
   });
+
+  if (loading) {
+    return (
+      <MobileLayout>
+        <div className="flex-1 flex items-center justify-center">
+          <Loader2 className="w-8 h-8 animate-spin text-blue-500" />
+        </div>
+        <BottomNav activeTab="explore" />
+      </MobileLayout>
+    );
+  }
+
+  if (error) {
+    return (
+      <MobileLayout>
+        <div className="flex-1 flex items-center justify-center text-red-400">
+          {error}
+        </div>
+        <BottomNav activeTab="explore" />
+      </MobileLayout>
+    );
+  }
 
   return (
     <MobileLayout>
@@ -47,7 +97,7 @@ export const Explore: React.FC = () => {
               className="w-full bg-zinc-800 text-white pl-10 pr-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/50 placeholder:text-zinc-500"
             />
             {searchQuery && (
-              <button 
+              <button
                 onClick={() => setSearchQuery('')}
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400"
               >
@@ -55,7 +105,7 @@ export const Explore: React.FC = () => {
               </button>
             )}
           </div>
-          <button 
+          <button
             onClick={() => setShowFilters(!showFilters)}
             className={clsx(
               "w-12 h-12 rounded-xl flex items-center justify-center transition-colors",
@@ -98,23 +148,23 @@ export const Explore: React.FC = () => {
       </div>
 
       <div className="flex-1 overflow-y-auto pb-24 no-scrollbar p-4">
-        {/* Moods Grid */}
+        {/* Moods Grid - Dynamic Categories */}
         {!searchQuery && !selectedMood && (
           <div className="mb-8">
             <h2 className="text-lg font-bold text-white mb-4">Discover by Mood</h2>
             <div className="grid grid-cols-3 gap-3">
-              {MOODS.map((mood) => {
-                const Icon = mood.icon;
+              {categories.map((category) => {
+                const IconComponent = ICON_MAP[category.icon] || Mountain;
                 return (
                   <button
-                    key={mood.id}
-                    onClick={() => setSelectedMood(mood.id)}
+                    key={category.id}
+                    onClick={() => setSelectedMood(category.id)}
                     className="aspect-square rounded-2xl bg-zinc-800 border border-white/5 flex flex-col items-center justify-center gap-2 hover:bg-zinc-700 transition-colors group"
                   >
-                    <div className={clsx("w-10 h-10 rounded-full flex items-center justify-center text-white transition-transform group-hover:scale-110", mood.color)}>
-                      <Icon size={20} />
+                    <div className={clsx("w-10 h-10 rounded-full flex items-center justify-center text-white transition-transform group-hover:scale-110", category.color)}>
+                      <IconComponent size={20} />
                     </div>
-                    <span className="text-xs font-medium text-zinc-300">{mood.label}</span>
+                    <span className="text-xs font-medium text-zinc-300">{category.name}</span>
                   </button>
                 );
               })}
@@ -125,27 +175,29 @@ export const Explore: React.FC = () => {
         {/* Selected Mood Header */}
         {selectedMood && (
           <div className="flex items-center gap-2 mb-6">
-            <button 
+            <button
               onClick={() => setSelectedMood(null)}
               className="text-zinc-400 hover:text-white"
             >
               <X size={20} />
             </button>
-            <h2 className="text-xl font-bold text-white capitalize">{selectedMood} Trips</h2>
+            <h2 className="text-xl font-bold text-white capitalize">
+              {categories.find(c => c.id === selectedMood)?.name || selectedMood} Trips
+            </h2>
           </div>
         )}
 
         {/* Results Grid */}
         <div className="grid grid-cols-2 gap-4">
           {filteredPackages.map((pkg) => (
-            <div 
+            <div
               key={pkg.id}
               onClick={() => navigate(`/package/${pkg.id}`)}
               className="relative aspect-[3/4] rounded-2xl overflow-hidden bg-zinc-800 cursor-pointer group"
             >
-              <img 
-                src={pkg.image} 
-                alt={pkg.title} 
+              <img
+                src={pkg.image}
+                alt={pkg.title}
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
