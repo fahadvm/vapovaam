@@ -9,6 +9,7 @@ import { AdminDashboard } from './pages/admin/AdminDashboard';
 import { CategoriesPage } from './pages/admin/CategoriesPage';
 import { TripsPage } from './pages/admin/TripsPage';
 
+import { CreateTripPage } from './pages/admin/CreateTripPage';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
           <Route index element={<AdminDashboard />} />
           <Route path="categories" element={<CategoriesPage />} />
           <Route path="trips" element={<TripsPage />} />
+          <Route path="create" element={<CreateTripPage />} />
         </Route>
       </Routes>
     </HashRouter>
