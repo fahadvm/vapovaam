@@ -1,12 +1,9 @@
-import { UserRepository } from '../repositories/user.repository.js';
 import { IUser } from '../interfaces/user.interface.js';
+import { IUserRepository } from '../interfaces/user-repository.interface.js';
+import { IUserService } from '../interfaces/user-service.interface.js';
 
-export class UserService {
-    private userRepository: UserRepository;
-
-    constructor() {
-        this.userRepository = new UserRepository();
-    }
+export class UserService implements IUserService {
+    constructor(private userRepository: IUserRepository) { }
 
     async getAllUsers(): Promise<IUser[]> {
         return await this.userRepository.findAll();

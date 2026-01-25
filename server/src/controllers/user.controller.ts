@@ -1,12 +1,8 @@
 import { Request, Response } from 'express';
-import { UserService } from '../services/user.service.js';
+import { IUserService } from '../interfaces/user-service.interface.js';
 
 export class UserController {
-    private userService: UserService;
-
-    constructor() {
-        this.userService = new UserService();
-    }
+    constructor(private userService: IUserService) { }
 
     getUsers = async (req: Request, res: Response) => {
         try {
