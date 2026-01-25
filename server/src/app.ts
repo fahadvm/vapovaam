@@ -7,7 +7,9 @@ import routes from './routes/index.js';
 const app: Application = express();
 
 // Middleware
-app.use(helmet());
+app.use(helmet({
+    crossOriginResourcePolicy: false,
+}));
 app.use(cors());
 app.use(morgan('dev'));
 app.use(express.json());
